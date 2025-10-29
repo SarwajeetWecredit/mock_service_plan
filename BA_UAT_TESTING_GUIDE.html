@@ -62,14 +62,170 @@
         }
 
         .flow-diagram {
-            background: #1a202c;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
             color: #e2e8f0;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 20px 0;
-            overflow-x: auto;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
+        .flow-diagram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #48bb78);
+        }
+
+        .flow-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .flow-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .flow-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            margin-right: 25px;
+            z-index: 2;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .flow-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .flow-card.validation {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .flow-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .flow-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .flow-header h4 {
+            color: #e2e8f0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .flow-content {
+            padding-left: 0;
+        }
+
+        .flow-actor {
+            color: #a78bfa;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .flow-description {
+            color: #cbd5e0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .flow-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-tag {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a5b4fc;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .detail-tag.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .flow-connector {
+            position: absolute;
+            left: 25px;
+            top: 50px;
+            bottom: -30px;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea, rgba(102, 126, 234, 0.3));
+        }
+
+        .flow-item:last-child .flow-connector {
+            display: none;
+        }
+
+        .flow-summary {
+            background: rgba(72, 187, 120, 0.1);
+            border: 2px solid rgba(72, 187, 120, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .flow-summary h4 {
+            color: #68d391;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .flow-summary p {
+            color: #e2e8f0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Legacy flow styles for backward compatibility */
         .flow-step {
             display: flex;
             align-items: center;
@@ -150,6 +306,8 @@
             line-height: 1.4;
             margin: 15px 0;
             position: relative;
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .payload-header {
@@ -173,9 +331,17 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.8rem;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .copy-btn:hover {
+        .copy-btn:hover,
+        .copy-btn:active {
             background: #3182ce;
         }
 
@@ -336,6 +502,8 @@
             color: #718096;
             transition: all 0.3s ease;
             text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .tab.active {
@@ -358,22 +526,148 @@
             display: block;
         }
 
+        /* Tablet breakpoint */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .hero {
+                padding: 30px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .control-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+            
+            .scenario-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        /* Mobile breakpoint */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
             
+            .hero {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+            
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .flow-banner {
+                font-size: 1rem;
+                padding: 15px;
+                text-align: center;
+                line-height: 1.4;
+            }
+            
+            .card {
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 10px;
             }
             
             .control-grid,
             .scenario-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
             }
             
+            .control-card,
+            .scenario-card {
+                padding: 20px;
+            }
+            
+            .flow-diagram {
+                padding: 25px 20px;
+                margin: 20px 0;
+            }
+            
+            .flow-timeline {
+                max-width: 100%;
+            }
+            
+            .flow-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 40px;
+                position: relative;
+            }
+            
+            .flow-number {
+                margin-right: 0;
+                margin-bottom: 20px;
+                z-index: 10;
+                position: relative;
+            }
+            
+            .flow-card {
+                width: 100%;
+                padding: 20px;
+                position: relative;
+                z-index: 5;
+            }
+            
+            .flow-header {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .flow-header h4 {
+                font-size: 1.1rem;
+            }
+            
+            .flow-icon {
+                font-size: 1.5rem;
+                margin-right: 10px;
+            }
+            
+            .flow-details {
+                justify-content: center;
+            }
+            
+            .detail-tag {
+                font-size: 0.8rem;
+                padding: 3px 8px;
+            }
+            
+            .flow-connector {
+                display: none;
+            }
+            
+            /* Mobile connector alternative - using pseudo elements */
+            .flow-item:not(:last-child)::after {
+                content: '↓';
+                position: absolute;
+                bottom: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 1.5rem;
+                color: #667eea;
+                z-index: 1;
+            }
+
+            /* Legacy flow styles for mobile */
             .flow-step {
                 flex-direction: column;
+                margin: 15px 0;
+                font-size: 1rem;
             }
             
             .flow-arrow {
@@ -381,8 +675,120 @@
                 margin: 10px 0;
             }
 
+            .flow-box {
+                min-width: 150px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .flow-text {
+                font-size: 0.8rem;
+                max-width: 180px;
+            }
+            
+            .flow-summary {
+                padding: 15px;
+            }
+            
+            .flow-summary h4 {
+                font-size: 1.1rem;
+            }
+            
+            .flow-summary p {
+                font-size: 0.9rem;
+            }
+
             .tabs {
                 flex-direction: column;
+                gap: 5px;
+                padding: 5px;
+            }
+            
+            .tab {
+                min-width: 100%;
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .admin-payload,
+            .test-steps,
+            .ui-controls {
+                margin: 15px 0;
+            }
+            
+            .admin-payload {
+                padding: 15px;
+                font-size: 0.8rem;
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .payload-header {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+            
+            .copy-btn {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+            
+            .parameter-table {
+                font-size: 0.8rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .parameter-table th,
+            .parameter-table td {
+                padding: 8px;
+            }
+            
+            /* Better handling for long URLs and code */
+            code {
+                word-break: break-all;
+                overflow-wrap: break-word;
+            }
+        }
+
+        /* Small mobile breakpoint */
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .flow-banner {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .control-card,
+            .scenario-card {
+                padding: 15px;
+            }
+            
+            .tab {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Stack inline grids vertically on very small screens */
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                display: block !important;
+            }
+            
+            div[style*="grid-template-columns: 1fr 1fr"] > div {
+                margin-bottom: 10px !important;
             }
         }
     </style>
@@ -413,33 +819,116 @@
                 <h2>🔄 Complete Testing Flow</h2>
                 
                 <div class="flow-diagram">
-                    <div class="flow-step">
-                        <div class="flow-arrow"> STEP 1</div>
-                        <div class="flow-box">👨‍💼 Business Analyst</div>
-                         <div class="flow-arrow"> -></div>
-                        <div class="flow-box">🎛️ Admin UI Setup</div>
-                        <div class="flow-text">Creates mobile override with expected response</div>
+                    <div class="flow-timeline">
+                        <!-- Step 1: Setup -->
+                        <div class="flow-item">
+                            <div class="flow-number">1</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">🎛️</div>
+                                    <h4>Admin Override Setup</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">👨‍💼 Business Analyst</div>
+                                    <p class="flow-description">Creates mobile override with expected response in Admin UI</p>
+                                    <div class="flow-details">
+                                        <span class="detail-tag">Mobile: 9999888777</span>
+                                        <span class="detail-tag">Lender: ABFL</span>
+                                        <span class="detail-tag">Response: Custom Approval</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 2: Form Submission -->
+                        <div class="flow-item">
+                            <div class="flow-number">2</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">🌐</div>
+                                    <h4>UAT Website Testing</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">👨‍� Business Analyst</div>
+                                    <p class="flow-description">Fills loan application form using the same mobile number</p>
+                                    <div class="flow-details">
+                                        <span class="detail-tag">URL: uat.wecredit.co.in</span>
+                                        <span class="detail-tag">Form: Loan Application</span>
+                                        <span class="detail-tag">Mobile: 9999888777</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 3: Backend Processing -->
+                        <div class="flow-item">
+                            <div class="flow-number">3</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">🔄</div>
+                                    <h4>Backend Processing</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">🏢 Affiliate-Engine → 🎯 Mock Service</div>
+                                    <p class="flow-description">System checks override database and matches mobile number</p>
+                                    <div class="flow-details">
+                                        <span class="detail-tag">Route: /api/v1/lenders/abfl</span>
+                                        <span class="detail-tag">Match: Mobile Found</span>
+                                        <span class="detail-tag">Action: Override Applied</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 4: Custom Response -->
+                        <div class="flow-item">
+                            <div class="flow-number">4</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">✨</div>
+                                    <h4>Custom Response Delivery</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">🎯 Mock Service → 🌐 UAT Website</div>
+                                    <p class="flow-description">Returns BA-configured response instead of default lender response</p>
+                                    <div class="flow-details">
+                                        <span class="detail-tag success">Status: Approved</span>
+                                        <span class="detail-tag success">Amount: ₹7.5L</span>
+                                        <span class="detail-tag success">Rate: 10.5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 5: Validation -->
+                        <div class="flow-item">
+                            <div class="flow-number">5</div>
+                            <div class="flow-card validation">
+                                <div class="flow-header">
+                                    <div class="flow-icon">📊</div>
+                                    <h4>Result Validation</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">👨‍💼 Business Analyst</div>
+                                    <p class="flow-description">Verifies custom response appears on UAT website as expected</p>
+                                    <div class="flow-details">
+                                        <span class="detail-tag success">✅ Message Match</span>
+                                        <span class="detail-tag success">✅ Amount Correct</span>
+                                        <span class="detail-tag success">✅ Test Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flow-step">
-                        <div class="flow-arrow"> STEP 2</div>
-                        <div class="flow-box">🌐 UAT Website</div>
-                        <div class="flow-arrow"> -></div>
-                        <div class="flow-box">📋 Lead Form Submission</div>
-                        <div class="flow-text">BA fills form with same mobile number</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-arrow"> STEP 3</div>
-                        <div class="flow-box">🏢 Affiliate-Engine</div>
-                        <div class="flow-arrow"> -></div>
-                        <div class="flow-box">🎯 Mock Service</div>
-                        <div class="flow-text">Checks override & returns custom response</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-arrow"> STEP 4</div>
-                        <div class="flow-box">✨ Custom Response</div>
-                        <div class="flow-arrow"> -></div>
-                        <div class="flow-box">📊 BA Validates Result</div>
-                        <div class="flow-text">Verifies expected behavior on website</div>
+
+                    <!-- Flow Summary -->
+                    <div class="flow-summary">
+                        <h4>🎯 Complete Control Flow</h4>
+                        <p><strong>BA Controls:</strong> Admin Override → <strong>System Processes:</strong> UAT Form → <strong>Result:</strong> Custom Response Delivered</p>
                     </div>
                 </div>
 
@@ -515,8 +1004,7 @@
                         </div>
                         <div class="ui-controls">
                             <h4>UI Controls:</h4>
-                            <ul>
-                                <li><strong>Lender Dropdown:</strong> ABFL, TrustPaisa, Fibe</li>
+<ul style="margin-left: 20px;">                                <li><strong>Lender Dropdown:</strong> ABFL, TrustPaisa, Fibe</li>
                                 <li><strong>Mobile Number Input:</strong> Any 10-digit number</li>
                                 <li><strong>Endpoint Selection:</strong> Specific API endpoint (optional)</li>
                             </ul>
@@ -531,8 +1019,7 @@
                         </div>
                         <div class="ui-controls">
                             <h4>UI Controls:</h4>
-                            <ul>
-                                <li><strong>Status Code Dropdown:</strong> 200 (Success), 400 (Bad Request), 500 (Server Error)</li>
+<ul style="margin-left: 20px;">                                <li><strong>Status Code Dropdown:</strong> 200 (Success), 400 (Bad Request), 500 (Server Error)</li>
                                 <li><strong>Response Type:</strong> Success, Rejection, Error, Custom</li>
                                 <li><strong>Message Text Area:</strong> Custom message user will see</li>
                                 <li><strong>Response Template:</strong> Pre-built templates for common scenarios</li>
@@ -548,8 +1035,7 @@
                         </div>
                         <div class="ui-controls">
                             <h4>UI Controls:</h4>
-                            <ul>
-                                <li><strong>Response Delay Slider:</strong> 0ms to 30 seconds</li>
+<ul style="margin-left: 20px;">                                <li><strong>Response Delay Slider:</strong> 0ms to 30 seconds</li>
                                 <li><strong>Usage Limit Dropdown:</strong> 1, 5, 10, Unlimited times</li>
                                 <li><strong>Enable/Disable Toggle:</strong> Activate or deactivate override</li>
                                 <li><strong>Expiry Date Picker:</strong> Auto-cleanup after date</li>
@@ -565,8 +1051,7 @@
                         </div>
                         <div class="ui-controls">
                             <h4>UI Controls:</h4>
-                            <ul>
-                                <li><strong>Active Overrides List:</strong> View all current overrides</li>
+<ul style="margin-left: 20px;">                                <li><strong>Active Overrides List:</strong> View all current overrides</li>
                                 <li><strong>Usage Counter:</strong> See how many times used</li>
                                 <li><strong>Edit Button:</strong> Modify existing overrides</li>
                                 <li><strong>Delete Button:</strong> Remove overrides</li>
@@ -931,26 +1416,75 @@
 
                 <h3>🔄 Complete Override Lifecycle</h3>
                 <div class="flow-diagram">
-                    <div class="flow-step">
-                        <div class="flow-box">👨‍💼 BA Opens Admin UI</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">🎛️ Fills Override Form</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">📤 POST /admin/overrides</div>
+                    <div class="flow-timeline">
+                        <!-- Step 1: Admin UI -->
+                        <div class="flow-item">
+                            <div class="flow-number">1</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">👨‍💼</div>
+                                    <h4>BA Opens Admin UI</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">🎛️ Admin Interface</div>
+                                    <p class="flow-description">Business Analyst accesses admin dashboard and fills override form</p>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 2: API Call -->
+                        <div class="flow-item">
+                            <div class="flow-number">2</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">📤</div>
+                                    <h4>POST /admin/overrides</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">💾 Mock Service Storage</div>
+                                    <p class="flow-description">Override configuration is stored in mock service database</p>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 3: UAT Testing -->
+                        <div class="flow-item">
+                            <div class="flow-number">3</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">🌐</div>
+                                    <h4>BA Tests on UAT</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">📱 Mobile Match Detection</div>
+                                    <p class="flow-description">System checks override database when mobile number matches</p>
+                                </div>
+                            </div>
+                            <div class="flow-connector"></div>
+                        </div>
+
+                        <!-- Step 4: Response & Cleanup -->
+                        <div class="flow-item">
+                            <div class="flow-number">4</div>
+                            <div class="flow-card">
+                                <div class="flow-header">
+                                    <div class="flow-icon">✨</div>
+                                    <h4>Custom Response & Tracking</h4>
+                                </div>
+                                <div class="flow-content">
+                                    <div class="flow-actor">📊 Usage Management</div>
+                                    <p class="flow-description">Sends custom response, decrements usage counter, auto-cleanup when exhausted</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flow-step">
-                        <div class="flow-box">💾 Stored in Mock Service</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">🌐 BA Tests on UAT</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">📱 Mobile Match Found</div>
-                    </div>
-                    <div class="flow-step">
-                        <div class="flow-box">✨ Custom Response Sent</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">📊 Usage Counter Decremented</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-box">🧹 Auto-cleanup When Exhausted</div>
+
+                    <!-- Flow Summary -->
+                    <div class="flow-summary">
+                        <h4>🎯 Override Lifecycle Complete</h4>
+                        <p><strong>Admin UI:</strong> Create Override → <strong>Storage:</strong> Save Configuration → <strong>Testing:</strong> UAT Validation → <strong>Management:</strong> Usage Tracking & Cleanup</p>
                     </div>
                 </div>
             </div>
@@ -1028,16 +1562,17 @@
                     <p><strong>Test Date:</strong> October 29, 2025</p>
                     <p><strong>Environment:</strong> Mock Service (localhost:8081) + Affiliate-Engine Integration</p>
                 </div>
-                
-                <div class="scenario-grid">
+
+                <h3>🧪 Live Testing Results</h3>
+                <div class="control-grid">
                 
                 <!-- STEP 1: Admin Override Setup -->
-                <div class="scenario-card" style="border-left: 4px solid #3b82f6;">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">1️⃣</span>
+                <div class="control-card" style="border-left: 4px solid #3b82f6;">
+                    <div class="control-title">
+                        <span class="control-icon">1️⃣</span>
                         STEP 1: Admin Override Setup
                     </div>
-                    <div class="scenario-purpose">BA creates custom response configuration for specific mobile number</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">BA creates custom response configuration for specific mobile number</p>
                     
                     <div class="test-steps">
                         <h4>📝 Request Details:</h4>
@@ -1091,12 +1626,12 @@
                 </div>
 
                 <!-- STEP 2: Create Lead -->
-                <div class="scenario-card" style="border-left: 4px solid #10b981;">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">2️⃣</span>
+                <div class="control-card" style="border-left: 4px solid #10b981;">
+                    <div class="control-title">
+                        <span class="control-icon">2️⃣</span>
                         STEP 2: Create Lead (UAT Website → Affiliate → Mock)
                     </div>
-                    <div class="scenario-purpose">Simulate what happens when BA fills form on UAT website with the override mobile number</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">Simulate what happens when BA fills form on UAT website with the override mobile number</p>
                     
                     <div class="test-steps">
                         <h4>🔄 Flow Simulation:</h4>
@@ -1144,12 +1679,12 @@
                 </div>
 
                 <!-- STEP 3: Verification -->
-                <div class="scenario-card" style="border-left: 4px solid #f59e0b;">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">3️⃣</span>
+                <div class="control-card" style="border-left: 4px solid #f59e0b;">
+                    <div class="control-title">
+                        <span class="control-icon">3️⃣</span>
                         STEP 3: Verification & Usage Tracking
                     </div>
-                    <div class="scenario-purpose">Verify override was used and track remaining attempts</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">Verify override was used and track remaining attempts</p>
                     
                     <div class="test-steps">
                         <h4>🔍 Verification Process:</h4>
@@ -1178,12 +1713,12 @@
                 </div>
 
                 <!-- Second Test Verification -->
-                <div class="scenario-card" style="border-left: 4px solid #8b5cf6;">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">🔄</span>
+                <div class="control-card" style="border-left: 4px solid #8b5cf6;">
+                    <div class="control-title">
+                        <span class="control-icon">🔄</span>
                         Additional Test: Second Lead Creation
                     </div>
-                    <div class="scenario-purpose">Verify override works consistently for multiple tests</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">Verify override works consistently for multiple tests</p>
                     
                     <div class="test-steps">
                         <h4>🧪 Second Test Execution:</h4>
@@ -1218,12 +1753,12 @@
                 </div>
 
                 <!-- TrustPaisa Scenario Testing -->
-                <div class="scenario-card" style="border-left: 4px solid #ef4444;">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">🔴</span>
+                <div class="control-card" style="border-left: 4px solid #ef4444;">
+                    <div class="control-title">
+                        <span class="control-icon">🔴</span>
                         TrustPaisa Rejection Scenario
                     </div>
-                    <div class="scenario-purpose">Test custom rejection response configuration</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">Test custom rejection response configuration</p>
                     
                     <div class="test-steps">
                         <h4>📝 Rejection Override Setup:</h4>
@@ -1265,14 +1800,14 @@
                 </div>
 
                 <!-- Integration Test Summary -->
-                <div class="scenario-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                    <div class="scenario-title" style="color: white;">
-                        <span class="scenario-icon">🎯</span>
+                <div class="control-card" style="border-left: 4px solid #667eea; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+                    <div class="control-title">
+                        <span class="control-icon">🎯</span>
                         Complete Integration Summary
                     </div>
-                    <div class="scenario-purpose" style="color: #e2e8f0;">End-to-End Flow: Admin UI → UAT Website → Affiliate-Engine → Mock Service → Custom Response</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">End-to-End Flow: Admin UI → UAT Website → Affiliate-Engine → Mock Service → Custom Response</p>
                     
-                    <div class="test-steps" style="color: white;">
+                    <div class="test-steps">
                         <h4>📋 Validated Flow Components:</h4>
                         <ol>
                             <li>✅ <strong>Admin Override API</strong> - Create/Read/Update/Delete overrides</li>
@@ -1283,9 +1818,9 @@
                             <li>✅ <strong>Response Timing</strong> - Configurable delay simulation</li>
                         </ol>
                         
-                       <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; color: black;">
-    <h4>� BA Testing Capabilities Confirmed:</h4>
-    <ul style="margin: 10px 0;">
+                       <div style="background: #e6fffa; border-left: 4px solid #38b2ac; padding: 15px; border-radius: 0 8px 8px 0; margin: 15px 0;">
+    <h4 style="color: #234e52;">🎯 BA Testing Capabilities Confirmed:</h4>
+    <ul style="margin: 10px 0; color: #2d3748;">
         <li><strong>Any Mobile Number:</strong> No predefined constraints</li>
         <li><strong>Custom Responses:</strong> Full control over lender responses</li>
         <li><strong>Multiple Scenarios:</strong> Approval, rejection, pending, error states</li>
@@ -1298,12 +1833,12 @@
                 </div>
 
                 <!-- Quick Commands Reference -->
-                <div class="scenario-card">
-                    <div class="scenario-title">
-                        <span class="scenario-icon">⚡</span>
+                <div class="control-card">
+                    <div class="control-title">
+                        <span class="control-icon">⚡</span>
                         Quick Reference: Testing Commands
                     </div>
-                    <div class="scenario-purpose">Copy-paste commands for manual verification and testing</div>
+                    <p style="color: #718096; margin-bottom: 15px; font-style: italic;">Copy-paste commands for manual verification and testing</p>
 
                     <div class="admin-payload">
                         <div class="payload-header">� Check Mock Service Health</div>
@@ -1338,6 +1873,7 @@ curl -u admin:MockAdmin@2025 -X DELETE \
                 </div>
             </div>
 
+            <!-- Final Summary Section -->
             <div class="card" style="margin-top: 30px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white;">
                 <h3>🎉 Complete Testing Verification Summary</h3>
                 <div style="text-align: center; margin: 20px 0;">
@@ -1376,29 +1912,42 @@ curl -u admin:MockAdmin@2025 -X DELETE \
                     </div>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
-                    <h3>📋 Final Validation Checklist</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                        <div>
-                            <p>✅ Mock service running on localhost:8081</p>
-                            <p>✅ Admin API authentication working</p>
-                            <p>✅ Override creation & deletion functional</p>
-                            <p>✅ Mobile number targeting precise</p>
-                        </div>
-                        <div>
-                            <p>✅ Custom response delivery confirmed</p>
-                            <p>✅ Usage tracking & decrementation verified</p>
-                            <p>✅ Multi-lender support validated</p>
-                            <p>✅ Real-world simulation successful</p>
+                <!-- Final Validation Summary -->
+                <div class="control-card">
+                    <div class="control-title">
+                        <span class="control-icon">📋</span>
+                        Final Validation Checklist
+                    </div>
+                    <div class="ui-controls">
+                        <h4>System Validation Results:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                            <div>
+                                <p>✅ Mock service running on localhost:8081</p>
+                                <p>✅ Admin API authentication working</p>
+                                <p>✅ Override creation & deletion functional</p>
+                                <p>✅ Mobile number targeting precise</p>
+                            </div>
+                            <div>
+                                <p>✅ Custom response delivery confirmed</p>
+                                <p>✅ Usage tracking & decrementation verified</p>
+                                <p>✅ Multi-lender support validated</p>
+                                <p>✅ Real-world simulation successful</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div style="text-align: center; background: rgba(59, 130, 246, 0.3); padding: 15px; border-radius: 8px;">
-                    <h4>🎯 Ready for Production UAT Testing!</h4>
-                    <p>BA can now use https://uat.wecredit.co.in with complete confidence.<br>
-                    Any mobile number + admin override = full control over lender responses.</p>
+                <!-- Production Ready Status -->
+                <div class="control-card" style="border-left: 4px solid #059669; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+                    <div class="control-title" style="color: #059669;">
+                        <span class="control-icon">🎯</span>
+                        Ready for Production UAT Testing!
+                    </div>
+                    <p style="text-align: center; color: #065f46; font-size: 1.1rem; margin-bottom: 10px;">BA can now use https://uat.wecredit.co.in with complete confidence.</p>
+                    <p style="text-align: center; color: #065f46; font-weight: 600;">Any mobile number + admin override = full control over lender responses.</p>
                 </div>
+                
+                </div> <!-- Close control-grid -->
             </div>
         </div>
     </div>
